@@ -36,7 +36,7 @@ function gotAwards(n){
 
 }
 
-// gotAwards(4);
+ gotAwards(4);
 
  //////////////// 2nd TASK/////////////////////////// 
 function gotAwardsYear(n){
@@ -51,7 +51,7 @@ function gotAwardsYear(n){
 
 
 }
-// gotAwardsYear(1973.0)
+ gotAwardsYear(1973.0)
 
 
  //////////////// 3 rd Taskkk////////////////////////////////////// 
@@ -70,7 +70,7 @@ function getProfitsOnbooks(){
  )
 }
 
-//  getProfitsOnbooks()
+getProfitsOnbooks()
 
 
  //////////////// 4th      TASK/////////////////////////// 
