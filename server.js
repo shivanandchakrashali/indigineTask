@@ -27,23 +27,21 @@ app.use(bodyParser.json());
 
 function gotAwards(n){
 
-    db.newUsers.find({ AwardWon: { $gte: n } },function(err,doc){
-        if(err){return err}
-        console.log('1ST TASK 1ST TASK 1ST TASK 1ST TASK 1ST TASK 1ST TASK')
-        console.log(doc);
-        
-    })
-     
+  db.authors.find( {awards : {$exists:true}, $where:'this.awards.length>='+n}
 
- 
+  ,function(err,doc){
+    console.log('dddddddddd')
+     console.log(doc)
+  });
+
 }
 
-gotAwards(15);
+// gotAwards(4);
 
  //////////////// 2nd TASK/////////////////////////// 
 function gotAwardsYear(n){
  
-  db.newUsers.find({ Awardyear: { $gte: n } },function(err,doc){
+  db.authors.find({ 'awards.year': { $gte: n } },function(err,doc){
       if(err){return err}
       console.log('2nd TASK 2nd TASK 2nd TASK 2nd TASK 2nd TASK 2nd TASK')
       console.log(doc);
@@ -53,7 +51,7 @@ function gotAwardsYear(n){
 
 
 }
-gotAwardsYear(2015)
+// gotAwardsYear(1973.0)
 
 
  //////////////// 3 rd Taskkk////////////////////////////////////// 
@@ -62,7 +60,7 @@ function getProfitsOnbooks(){
   
   db.books.aggregate(
     [
-      { $project: { bookSold:1,totalProfit: { $multiply: [ "$bookrate", "$bookSold" ] } } }
+      { $project: { sold:1,totalProfit: { $multiply: [ "$price", "$sold" ] } } }
     ]
     ,function(err,doc){
       if(err){return err}
@@ -72,20 +70,36 @@ function getProfitsOnbooks(){
  )
 }
 
-getProfitsOnbooks()
+//  getProfitsOnbooks()
 
 
  //////////////// 4th      TASK/////////////////////////// 
 
 function getbirthDateTotalPrice(date,price){
 
- 
-  db.datetotalPrice.aggregate(
+   
+  db.authors.aggregate(
     [
       { $match: { 
         totalPrice: { $gte: price } ,
-        date: date
+        birth: new Date(date)
     }},
+
+    // { 
+    //   "$lookup": { 
+    //       "from": 'books', 
+    //       "localField": 'name.authorId', 
+    //       "foreignField": 'authorId', 
+    //       "as": 'result' 
+    //   } 
+    // },
+   
+    //  {$unwind: '$result'}, 
+    //{ $project:{'$result':{'$price':1}}}
+   
+    
+
+  //  { $project: { totalProfit: { $multiply: [ "$result.$.price", "result.$.$sold" ] } } }
      ]
     ,function(err,doc){
       if(err){return err}
@@ -96,7 +110,7 @@ function getbirthDateTotalPrice(date,price){
 
 }
 
-getbirthDateTotalPrice("1906-12-09T05:00:00.000Z",2000)
+getbirthDateTotalPrice("1924-12-03T05:00:00.000Z",3000)
 
 
 
